@@ -10,8 +10,13 @@ using System.Threading.Tasks;
 namespace AcercaTest.Services.Vehicles {
   public class FileVehicleRepository : IRepository<Vehicle> {
     private const int DEFAULT_PAGE_SIZE = 10;
-    private readonly string _filePath = Directory.GetCurrentDirectory() + "/vehicles";
+    //private readonly string _filePath = Directory.GetCurrentDirectory() + "\\vehicles";
+    private readonly string _filePath;
+    //Server.MapPath("~/App_Data/Vehicles")
 
+    public FileVehicleRepository(string baseFilePath) {
+      _filePath = baseFilePath;
+    }
     public List<Vehicle> Get(int pageNumber = 0, int pageSize = DEFAULT_PAGE_SIZE) {
       List<Vehicle> result = new List<Vehicle>();
 
@@ -20,9 +25,9 @@ namespace AcercaTest.Services.Vehicles {
       int from = (pageNumber) * pageSize;
       int to = pageSize != 0 ? (pageNumber + 1) * pageSize : files.Length;
 
-      for(int i = from; i < Math.Min(to, files.Length); i++) {
-        if (File.Exists(FileName(files[i]))) {
-          var text = File.ReadAllText(FileName(files[i]));
+      for (int i = from; i < Math.Min(to, files.Length); i++) {
+        if (File.Exists(files[i])) {
+          var text = File.ReadAllText(files[i]);
           var vehicle = JsonConvert.DeserializeObject<Vehicle>(text);
           result.Add(vehicle);
         }
@@ -60,7 +65,7 @@ namespace AcercaTest.Services.Vehicles {
     }
 
     private string FileName(string id) {
-      return $"{_filePath}.{id}.repo";
+      return $"{_filePath}\\vehicle.{id}.repo";
     }
 
     private void WriteToFile(Vehicle entity) {

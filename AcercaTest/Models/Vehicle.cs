@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace AcercaTest.Models {
+  public class Vehicle {
+    public Guid Id { get; set; }
+    public string OrderNumber { get; set; }
+    public string ChassisNumber { get; set; }
+    public string Model { get; set; }
+    public string NumberPlate { get; set; }
+    public DateTime DeliveryDate { get; set; }
+  }
+}

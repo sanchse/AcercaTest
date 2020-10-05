@@ -5,10 +5,10 @@ using System;
 using System.Collections.Generic;
 
 namespace AcercaTest.Services.Services {
-  public class VehiclesService {
+  public class VehiclesService : IVehiclesService {
     private IRepository<Vehicle> _repository;
 
-    public void VehicleService(IRepository<Vehicle> repository) {
+    public VehiclesService(IRepository<Vehicle> repository) {
       _repository = repository;
     }
 
@@ -41,6 +41,10 @@ namespace AcercaTest.Services.Services {
 
     public List<Vehicle> Search(SearchFilterVehicleDto searchFilter) {
       return _repository.Get(searchFilter.pageNumber, searchFilter.pageSize);
+    }
+
+    public Vehicle GetVehicleById(Guid id) {
+      return _repository.GetById(id);
     }
   }
 }

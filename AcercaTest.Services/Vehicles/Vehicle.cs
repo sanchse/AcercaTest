@@ -11,6 +11,6 @@ namespace AcercaTest.Services.Vehicles {
     public string ChassisNumber { get; set; }
     public string Model { get; set; }
     public string NumberPlate { get; set; }
-    public DateTime DeliveryDate;
+    public DateTime DeliveryDate { get; set; }
   }
 }
