@@ -1,5 +1,4 @@
-﻿using AcercaTest.Models;
-using AcercaTest.Services.DTOs.Vehicles;
+﻿using AcercaTest.Services.DTOs.Vehicles;
 using AcercaTest.Services.Services;
 using System;
 using System.Collections.Generic;
@@ -38,8 +37,7 @@ namespace AcercaTest.Controllers {
         return NotFound();
       }
 
-      var vehiclesList = Mapping.Mapping.Mapper.Map<List<Models.Vehicle>>(response);
-      return Ok(vehiclesList);
+      return Ok(response);
     }
 
     /// <summary>
@@ -56,8 +54,7 @@ namespace AcercaTest.Controllers {
         return NotFound();
       }
 
-      var vehicle = AcercaTest.Mapping.Mapping.Mapper.Map<Models.Vehicle>(response);
-      return Ok(vehicle);
+      return Ok(response);
     }
 
     /// <summary>
@@ -85,7 +82,10 @@ namespace AcercaTest.Controllers {
     public IHttpActionResult Delete(string id) {
       Guid guid = new Guid(id);
       try {
-        _vehiclesService.Delete(guid);
+        var found = _vehiclesService.Delete(guid);
+        if (!found) {
+          return NotFound();
+        }
         return Ok();
       }
       catch (Exception) {
@@ -104,6 +104,9 @@ namespace AcercaTest.Controllers {
       Guid guid = new Guid(id);
       try {
         var vehicle = _vehiclesService.Modify(guid, modifyVehicleDto);
+        if (vehicle == null) {
+          return NotFound();
+        }
         return Ok(vehicle);
       }
       catch (Exception) {

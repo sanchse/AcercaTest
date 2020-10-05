@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AcercaTest.Services.Model;
+using AcercaTest.Services.Vehicles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +10,8 @@ namespace AcercaTest.Services.Core {
   public interface IRepository<T> where T: class {
     void Insert(T entity);
     void Update(T entity);
-    void Delete(object id);
-    List<T> Get(int pageNumber, int pageSize);
+    bool Delete(object id);
+    ItemsResult<Vehicle> Get(int pageNumber, int pageSize);
     T GetById(object id);
   }
 }

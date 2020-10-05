@@ -1,4 +1,5 @@
 ﻿using AcercaTest.Services.Core;
+using AcercaTest.Services.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,17 +11,18 @@ using System.Threading.Tasks;
 namespace AcercaTest.Services.Vehicles {
   public class FileVehicleRepository : IRepository<Vehicle> {
     private const int DEFAULT_PAGE_SIZE = 10;
-    //private readonly string _filePath = Directory.GetCurrentDirectory() + "\\vehicles";
     private readonly string _filePath;
-    //Server.MapPath("~/App_Data/Vehicles")
 
     public FileVehicleRepository(string baseFilePath) {
       _filePath = baseFilePath;
     }
-    public List<Vehicle> Get(int pageNumber = 0, int pageSize = DEFAULT_PAGE_SIZE) {
-      List<Vehicle> result = new List<Vehicle>();
+    public ItemsResult<Vehicle> Get(int pageNumber = 0, int pageSize = DEFAULT_PAGE_SIZE) {
+      ItemsResult<Vehicle> result = new ItemsResult<Vehicle>();
+      result.PageNumber = pageNumber;
+      result.PageSize = pageSize;
 
       var files = Directory.GetFiles(_filePath);
+      result.Total = files.Length;
 
       int from = (pageNumber) * pageSize;
       int to = pageSize != 0 ? (pageNumber + 1) * pageSize : files.Length;
@@ -29,9 +31,11 @@ namespace AcercaTest.Services.Vehicles {
         if (File.Exists(files[i])) {
           var text = File.ReadAllText(files[i]);
           var vehicle = JsonConvert.DeserializeObject<Vehicle>(text);
-          result.Add(vehicle);
+          result.Items.Add(vehicle);
         }
       }
+
+      result.Count = result.Items.Count();
 
       return result;
     }
@@ -55,13 +59,16 @@ namespace AcercaTest.Services.Vehicles {
       WriteToFile(entity);
     }
 
-    public void Delete(object id) {
+    public bool Delete(object id) {
+      bool result = false;
       string idStringValue = ExtractStringId(id);
 
       if (idStringValue != null && File.Exists(FileName(idStringValue))) {
         var file = FileName(idStringValue);
         File.Delete(file);
+        result = true;
       }
+      return result;
     }
 
     private string FileName(string id) {

@@ -1,5 +1,6 @@
 ﻿using AcercaTest.Services.Core;
 using AcercaTest.Services.DTOs.Vehicles;
+using AcercaTest.Services.Model;
 using AcercaTest.Services.Vehicles;
 using System;
 using System.Collections.Generic;
@@ -35,11 +36,11 @@ namespace AcercaTest.Services.Services {
       return vehicle;
     }
 
-    public void Delete(Guid id) {
-      _repository.Delete(id);
+    public bool Delete(Guid id) {
+      return _repository.Delete(id);
     }
 
-    public List<Vehicle> Search(SearchFilterVehicleDto searchFilter) {
+    public ItemsResult<Vehicle> Search(SearchFilterVehicleDto searchFilter) {
       return _repository.Get(searchFilter.pageNumber, searchFilter.pageSize);
     }
 

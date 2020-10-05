@@ -53,6 +53,7 @@
     <Compile Include="DTOs\Vehicles\SearchFilterVehicleDto.cs" />
     <Compile Include="Mapping\Mapping.cs" />
     <Compile Include="Mapping\MappingProfile.cs" />
+    <Compile Include="Model\ItemsResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IVehiclesService.cs" />
     <Compile Include="Services\VehiclesService.cs" />
