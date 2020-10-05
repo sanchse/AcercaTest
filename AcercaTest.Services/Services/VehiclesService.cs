@@ -3,9 +3,6 @@ using AcercaTest.Services.DTOs.Vehicles;
 using AcercaTest.Services.Vehicles;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AcercaTest.Services.Services {
   public class VehiclesService {
@@ -16,14 +13,8 @@ namespace AcercaTest.Services.Services {
     }
 
     public Vehicle Create(CreateVehicleDto createVehicleDto) {
-      Vehicle newVehicle = new Vehicle() {
-        Id = Guid.NewGuid(),
-        ChassisNumber = createVehicleDto.ChassisNumber,
-        DeliveryDate = createVehicleDto.DeliveryDate,
-        Model = createVehicleDto.Model,
-        NumberPlate = createVehicleDto.NumberPlate,
-        OrderNumber = createVehicleDto.OrderNumber
-      };
+      Vehicle newVehicle = Mapping.Mapping.Mapper.Map<Vehicle>(createVehicleDto);
+      newVehicle.Id = Guid.NewGuid();
 
       _repository.Insert(newVehicle);
 
@@ -34,10 +25,22 @@ namespace AcercaTest.Services.Services {
       var vehicle = _repository.GetById((object)id);
 
       if (vehicle != null) {
-        vehicle.
+        var modifiedVehicle = Mapping.Mapping.Mapper.Map<Vehicle>(modifyVehicleDto);
+        modifiedVehicle.Id = id;
+
+        _repository.Update(modifiedVehicle);
+        vehicle = modifiedVehicle;
       }
 
       return vehicle;
+    }
+
+    public void Delete(Guid id) {
+      _repository.Delete(id);
+    }
+
+    public List<Vehicle> Search(SearchFilterVehicleDto searchFilter) {
+      return _repository.Get(searchFilter.pageNumber, searchFilter.pageSize);
     }
   }
 }

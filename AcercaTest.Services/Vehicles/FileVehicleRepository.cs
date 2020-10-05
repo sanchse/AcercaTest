@@ -50,9 +50,11 @@ namespace AcercaTest.Services.Vehicles {
       WriteToFile(entity);
     }
 
-    public void Delete(Vehicle entity) {
-      var file = FileName(entity.Id.ToString());
-      if (File.Exists(file)) {
+    public void Delete(object id) {
+      string idStringValue = ExtractStringId(id);
+
+      if (idStringValue != null && File.Exists(FileName(idStringValue))) {
+        var file = FileName(idStringValue);
         File.Delete(file);
       }
     }

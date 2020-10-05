@@ -8,7 +8,7 @@ namespace AcercaTest.Services.Core {
   public interface IRepository<T> where T: class {
     void Insert(T entity);
     void Update(T entity);
-    void Delete(T entity);
+    void Delete(object id);
     List<T> Get(int pageNumber, int pageSize);
     T GetById(object id);
   }
