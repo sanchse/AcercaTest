@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 
 namespace AcercaTest.Controllers {
   [EnableCors(origins: "*", headers: "*", methods: "*")]
+  [Authorize]
   public class VehiclesController : ApiController {
     private IVehiclesService _vehiclesService;
 
