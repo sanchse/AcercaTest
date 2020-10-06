@@ -1,4 +1,6 @@
 ﻿using AcercaTest.Models;
+using AcercaTest.Services.DTOs.CredentialsValidation;
+using AcercaTest.Services.Services;
 using AcercaTest.Token;
 using System;
 using System.Collections.Generic;
@@ -12,17 +14,10 @@ namespace AcercaTest.Controllers {
   [AllowAnonymous]
   [RoutePrefix("api/auth")]
   public class AuthController: ApiController {
-    [HttpGet]
-    [Route("echoping")]
-    public IHttpActionResult EchoPing() {
-      return Ok(true);
-    }
+    private ICredendialsValidationService _credentiasValidationService;
 
-    [HttpGet]
-    [Route("echouser")]
-    public IHttpActionResult EchoUser() {
-      var identity = Thread.CurrentPrincipal.Identity;
-      return Ok($" IPrincipal-user: {identity.Name} - IsAuthenticated: {identity.IsAuthenticated}");
+    public AuthController(ICredendialsValidationService credendialsValidationService) {
+      _credentiasValidationService = credendialsValidationService;
     }
 
     [HttpPost]
@@ -31,8 +26,8 @@ namespace AcercaTest.Controllers {
       if (login == null)
         throw new HttpResponseException(HttpStatusCode.BadRequest);
 
-      //TODO: Validate credentials Correctly, this code is only for this Test !!
-      bool isCredentialValid = (login.Password == "123456");
+      var credentials = Mapping.Mapping.Mapper.Map<CredentialsDto>(login);
+      bool isCredentialValid = _credentiasValidationService.ValidateCredentials(credentials);
       if (isCredentialValid) {
         var token = TokenGenerator.GenerateTokenJwt(login.Username);
         return Ok(token);

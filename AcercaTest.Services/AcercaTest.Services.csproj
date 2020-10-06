@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\IRepository.cs" />
+    <Compile Include="DTOs\CredentialsValidation\CredentialsDto.cs" />
     <Compile Include="DTOs\Vehicles\ModifyVehicleDto.cs" />
     <Compile Include="DTOs\Vehicles\CreateVehicleDto.cs" />
     <Compile Include="DTOs\Vehicles\SearchFilterVehicleDto.cs" />
@@ -55,6 +56,8 @@
     <Compile Include="Mapping\MappingProfile.cs" />
     <Compile Include="Model\ItemsResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CredentialsValidationService.cs" />
+    <Compile Include="Services\ICredendialsValidationService.cs" />
     <Compile Include="Services\IVehiclesService.cs" />
     <Compile Include="Services\VehiclesService.cs" />
     <Compile Include="Vehicles\Vehicle.cs" />

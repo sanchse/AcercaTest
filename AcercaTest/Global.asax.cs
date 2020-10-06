@@ -32,6 +32,7 @@ namespace AcercaTest {
 
       builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
+      builder.RegisterType<CredentialsValidationService>().As<ICredendialsValidationService>();
       builder.RegisterType<VehiclesService>().As<IVehiclesService>();
       builder.RegisterType<Services.Vehicles.FileVehicleRepository>().As<IRepository<Services.Vehicles.Vehicle>>();
       builder.RegisterType<Services.Vehicles.FileVehicleRepository>()
